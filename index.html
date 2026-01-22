@@ -1,70 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo-List Ariyo Seno</title>
-
-    <!-- CSS External File -->
-    <link rel="stylesheet" href="css/style.css">
-
-    <!-- Tailwind CSS CDN -->
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
+<body class="bg-[#0f172a] text-white flex justify-center items-center min-h-screen">
 
-<body>
-    <!-- Header Section -->
-    <header>
-        <h1 class="text-2xl font-bold">Todo List</h1>
-    </header>
+    <div class="bg-[#333c4d] p-8 rounded-xl shadow-2xl w-full max-w-2xl border border-gray-600">
+        
+        <header class="text-center mb-6">
+            <h1 class="text-3xl font-bold">Todo List</h1>
+        </header>
 
-    <!-- Main Content Section -->
-    <main>
-        <!-- Form Section -->
-        <section>
-            <form>
-                <!-- Todo Input -->
-                <input class="border p-2 rounded" type="text" id="todo-input" placeholder="Enter a new todo item">
-
-                <!-- Date Input -->
-                <input class="border p-2 rounded" type="date" id="todo-date" placeholder="Enter due date">
-            </form>
-
-            <!-- Add Button -->
-            <button class="border rounded p-2 bg-green-500 text-white" onclick="addTodo()" type="button">Add
-                Todo</button>
+        <section class="flex gap-2 mb-6">
+            <input class="bg-[#1e293b] border border-gray-500 p-3 rounded-lg flex-grow outline-none focus:border-indigo-400" 
+                   type="text" id="todo-input" placeholder="Add a todo...">
+            
+            <input class="bg-[#1e293b] border border-gray-500 p-3 rounded-lg outline-none focus:border-indigo-400 text-gray-400" 
+                   type="date" id="todo-date">
+            
+            <button class="bg-[#7d85f5] hover:bg-[#6b72d6] text-white px-5 rounded-lg text-2xl font-bold transition-all" 
+                    onclick="addTodo()">+</button>
         </section>
 
-        <!-- Action Section -->
-        <section class="flex pt-2 justify-between">
-            <!-- Clear All Button -->
-            <button class="border rounded p-2 bg-red-500 text-white" onclick="deleteAllTodo()">Clear All Todos</button>
-
-            <!-- Filter Options -->
-            <button class="border rounded p-2 bg-blue-500 text-white">Filter Todos</button>
+        <section class="flex justify-between mb-6">
+            <button class="bg-[#1e293b] border border-gray-500 px-4 py-2 rounded-md text-sm font-semibold hover:bg-gray-700 transition" 
+                    onclick="filterTodo()">FILTER</button>
+            <button class="bg-[#7d85f5] px-4 py-2 rounded-md text-sm font-bold hover:bg-[#6b72d6] transition uppercase" 
+                    onclick="deleteAllTodo()">Delete All</button>
         </section>
 
-        <!-- Todo List Section -->
-        <section class="pt-2">
-            <header>
-                <h1 class="text-2xl font-semibold">List of Todos</h1>
-            </header>
+        <div class="bg-[#0f172a] rounded-lg overflow-hidden">
+            <table class="w-full text-left border-collapse">
+                <thead class="text-xs text-gray-400 uppercase border-b border-gray-700">
+                    <tr>
+                        <th class="p-4">Task</th>
+                        <th class="p-4 text-center">Due Date</th>
+                        <th class="p-4 text-center">Status</th>
+                        <th class="p-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="todo-list" class="text-sm">
+                    <tr id="empty-message">
+                        <td colspan="4" class="p-10 text-center text-gray-500">No task found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-            <ul class="pt-2" id="todo-list">
-                <!-- Todo items will be dynamically added here -->
-                <li>No todos available</li>
-            </ul>
-        </section>
-    </main>
+        <footer class="mt-6">
+            <p class="text-center text-gray-400 text-xs text-opacity-50">© 2026 Todo-List Ariyo Seno</p>
+        </footer>
+    </div>
 
-    <!-- Footer Section -->
-    <footer>
-        <p class="text-center pt-4">© 2026 Todo-List Yama Roni</p>
-    </footer>
-
-    <!-- Javascript File -->
-    <script src="js/script.js"></script>
+    <script src="script.js"></script>
 </body>
-
 </html>

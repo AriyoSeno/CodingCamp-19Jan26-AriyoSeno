@@ -1,5 +1,4 @@
 body {
-    justify-items: center;
-    height: 100vh;
-    align-content: center;
+    background-color: #0f172a;
+    margin: 0;
 }
