@@ -1,5 +1,10 @@
-// js/script.js
-let todos = [];
+// 1. AMBIL DATA SAAT START: Cek apakah ada data di localStorage, jika tidak ada pakai array kosong
+let todos = JSON.parse(localStorage.getItem('myTodos')) || [];
+
+// Fungsi untuk menyimpan ke LocalStorage (dipanggil tiap kali data berubah)
+function saveToLocalStorage() {
+    localStorage.setItem('myTodos', JSON.stringify(todos));
+}
 
 function renderTodos(data = todos) {
     const list = document.getElementById('todo-list');
@@ -10,7 +15,7 @@ function renderTodos(data = todos) {
     }
 
     list.innerHTML = '';
-    data.forEach((item, index) => {
+    data.forEach((item) => {
         list.innerHTML += `
         <tr class="border-b border-gray-800">
             <td class="p-4 text-sm">${item.task}</td>
@@ -19,7 +24,7 @@ function renderTodos(data = todos) {
                 <span class="bg-[#7d85f5]/20 text-[#7d85f5] px-2 py-1 rounded text-[10px] font-bold">IN PROGRESS</span>
             </td>
             <td class="p-4 text-right">
-                <button onclick="deleteTodo(${index})" class="text-red-400 hover:text-red-300 text-xs font-semibold">Delete</button>
+                <button onclick="deleteTodo(${item.id})" class="text-red-400 hover:text-red-300 text-xs font-semibold">Delete</button>
             </td>
         </tr>`;
     });
@@ -36,38 +41,41 @@ function addTodo() {
     }
 
     errorMsg.classList.add('hidden');
-    todos.push({ task: taskInput.value, date: dateInput.value });
+    todos.push({ id: Date.now(), task: taskInput.value, date: dateInput.value });
     
     taskInput.value = '';
     dateInput.value = '';
+    
+    saveToLocalStorage(); // SIMPAN PERUBAHAN
     renderTodos();
 }
 
-// FITUR SEARCH (Real-time)
 function searchTodo() {
     const searchText = document.getElementById('search-input').value.toLowerCase();
-    const filtered = todos.filter(item => 
-        item.task.toLowerCase().includes(searchText)
-    );
+    const filtered = todos.filter(item => item.task.toLowerCase().includes(searchText));
     renderTodos(filtered);
 }
 
-function deleteTodo(index) {
-    todos.splice(index, 1);
-    renderTodos();
+function deleteTodo(id) {
+    todos = todos.filter(item => item.id !== id);
+    saveToLocalStorage(); // SIMPAN PERUBAHAN
+    searchTodo(); 
 }
 
 function deleteAllTodo() {
     if (todos.length > 0 && confirm("Clear all tasks?")) {
         todos = [];
+        saveToLocalStorage(); // SIMPAN PERUBAHAN
+        document.getElementById('search-input').value = '';
         renderTodos();
     }
 }
 
 function filterTodo() {
-    // Sort berdasarkan tanggal terdekat
     todos.sort((a, b) => new Date(a.date) - new Date(b.date));
-    renderTodos();
+    saveToLocalStorage(); // SIMPAN PERUBAHAN
+    searchTodo();
 }
 
+// Render data yang sudah diambil dari localStorage saat pertama kali load
 renderTodos();
