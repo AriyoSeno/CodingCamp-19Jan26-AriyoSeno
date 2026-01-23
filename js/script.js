@@ -1,65 +1,73 @@
+// js/script.js
 let todos = [];
 
-function addTodo() {
-    const todoInput = document.getElementById('todo-input');
-    const todoDate = document.getElementById('todo-date');
-
-    if (todoInput.value === '' || todoDate.value === '') {
-        alert('Please enter both a todo item and a due date.');
-        return;
-    }
-
-    const newTodo = {
-        id: Date.now(), // Unique ID untuk hapus
-        todo: todoInput.value,
-        date: todoDate.value,
-        status: 'In Progress'
-    };
-
-    todos.push(newTodo);
-    todoInput.value = '';
-    todoDate.value = '';
-
-    renderTodos();
-}
-
-function deleteTodo(id) {
-    todos = todos.filter(t => t.id !== id);
-    renderTodos();
-}
-
-function renderTodos() {
-    const todoList = document.getElementById('todo-list');
+function renderTodos(data = todos) {
+    const list = document.getElementById('todo-list');
     
-    if (todos.length === 0) {
-        todoList.innerHTML = `<tr id="empty-message"><td colspan="4" class="p-10 text-center text-gray-500">No task found</td></tr>`;
+    if (data.length === 0) {
+        list.innerHTML = `<tr><td colspan="4" class="p-12 text-center text-gray-500 italic">No tasks found</td></tr>`;
         return;
     }
 
-    todoList.innerHTML = '';
-
-    todos.forEach((todo) => {
-        todoList.innerHTML += `
-        <tr class="border-b border-gray-800 hover:bg-gray-800/50 transition">
-            <td class="p-4">${todo.todo}</td>
-            <td class="p-4 text-center text-gray-400">${todo.date}</td>
+    list.innerHTML = '';
+    data.forEach((item, index) => {
+        list.innerHTML += `
+        <tr class="border-b border-gray-800">
+            <td class="p-4 text-sm">${item.task}</td>
+            <td class="p-4 text-sm text-center text-gray-400 font-mono">${item.date}</td>
             <td class="p-4 text-center">
-                <span class="bg-blue-900 text-blue-300 px-2 py-1 rounded text-xs">${todo.status}</span>
+                <span class="bg-[#7d85f5]/20 text-[#7d85f5] px-2 py-1 rounded text-[10px] font-bold">IN PROGRESS</span>
             </td>
             <td class="p-4 text-right">
-                <button onclick="deleteTodo(${todo.id})" class="text-red-400 hover:text-red-600 transition">Delete</button>
+                <button onclick="deleteTodo(${index})" class="text-red-400 hover:text-red-300 text-xs font-semibold">Delete</button>
             </td>
         </tr>`;
     });
 }
 
+function addTodo() {
+    const taskInput = document.getElementById('todo-input');
+    const dateInput = document.getElementById('todo-date');
+    const errorMsg = document.getElementById('error-msg');
+
+    if (!taskInput.value.trim() || !dateInput.value) {
+        errorMsg.classList.remove('hidden');
+        return;
+    }
+
+    errorMsg.classList.add('hidden');
+    todos.push({ task: taskInput.value, date: dateInput.value });
+    
+    taskInput.value = '';
+    dateInput.value = '';
+    renderTodos();
+}
+
+// FITUR SEARCH (Real-time)
+function searchTodo() {
+    const searchText = document.getElementById('search-input').value.toLowerCase();
+    const filtered = todos.filter(item => 
+        item.task.toLowerCase().includes(searchText)
+    );
+    renderTodos(filtered);
+}
+
+function deleteTodo(index) {
+    todos.splice(index, 1);
+    renderTodos();
+}
+
 function deleteAllTodo() {
-    if(confirm("Are you sure you want to delete all tasks?")) {
+    if (todos.length > 0 && confirm("Clear all tasks?")) {
         todos = [];
         renderTodos();
     }
 }
 
 function filterTodo() {
-    alert("Filter function coming soon!");
+    // Sort berdasarkan tanggal terdekat
+    todos.sort((a, b) => new Date(a.date) - new Date(b.date));
+    renderTodos();
 }
+
+renderTodos();

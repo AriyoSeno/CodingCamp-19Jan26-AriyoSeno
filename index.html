@@ -4,38 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo-List Ariyo Seno</title>
-    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-[#0f172a] text-white flex justify-center items-center min-h-screen">
+<body class="bg-[#0f172a] text-white flex justify-center items-center min-h-screen p-4">
 
-    <div class="bg-[#333c4d] p-8 rounded-xl shadow-2xl w-full max-w-2xl border border-gray-600">
-        
-        <header class="text-center mb-6">
-            <h1 class="text-3xl font-bold">Todo List</h1>
+    <div class="bg-[#2d333b] p-6 rounded-xl shadow-2xl w-full max-w-2xl border border-gray-700">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold tracking-tight">Todo List</h1>
         </header>
 
-        <section class="flex gap-2 mb-6">
-            <input class="bg-[#1e293b] border border-gray-500 p-3 rounded-lg flex-grow outline-none focus:border-indigo-400" 
-                   type="text" id="todo-input" placeholder="Add a todo...">
-            
-            <input class="bg-[#1e293b] border border-gray-500 p-3 rounded-lg outline-none focus:border-indigo-400 text-gray-400" 
-                   type="date" id="todo-date">
-            
-            <button class="bg-[#7d85f5] hover:bg-[#6b72d6] text-white px-5 rounded-lg text-2xl font-bold transition-all" 
-                    onclick="addTodo()">+</button>
+        <section class="flex flex-col gap-2 mb-6">
+            <div class="flex gap-2">
+                <input id="todo-input" type="text" placeholder="Add a todo..." 
+                       class="bg-[#1c2128] border border-gray-600 p-3 rounded-lg flex-grow outline-none focus:border-[#7d85f5]">
+                <input id="todo-date" type="date" 
+                       class="bg-[#1c2128] border border-gray-600 p-3 rounded-lg outline-none focus:border-[#7d85f5] text-gray-400">
+                <button onclick="addTodo()" class="bg-[#7d85f5] hover:bg-[#6b72d6] text-white px-6 rounded-lg text-2xl font-bold transition-all">+</button>
+            </div>
+            <p id="error-msg" class="text-red-400 text-xs hidden font-medium">Input cannot be empty!</p>
         </section>
 
-        <section class="flex justify-between mb-6">
-            <button class="bg-[#1e293b] border border-gray-500 px-4 py-2 rounded-md text-sm font-semibold hover:bg-gray-700 transition" 
-                    onclick="filterTodo()">FILTER</button>
-            <button class="bg-[#7d85f5] px-4 py-2 rounded-md text-sm font-bold hover:bg-[#6b72d6] transition uppercase" 
-                    onclick="deleteAllTodo()">Delete All</button>
-        </section>
+        <div class="flex flex-col gap-4 mb-6">
+            <input id="search-input" type="text" onkeyup="searchTodo()" placeholder="Search tasks..." 
+                   class="bg-[#1c2128]/50 border border-gray-700 p-2 rounded-md text-sm outline-none focus:border-[#7d85f5]">
+            
+            <div class="flex justify-between items-center">
+                <button onclick="filterTodo()" class="bg-[#1c2128] border border-gray-600 px-5 py-2 rounded-md text-sm hover:bg-gray-700 transition">FILTER</button>
+                <button onclick="deleteAllTodo()" class="bg-[#7d85f5] px-5 py-2 rounded-md text-sm font-bold hover:bg-[#6b72d6] transition uppercase">Delete All</button>
+            </div>
+        </div>
 
-        <div class="bg-[#0f172a] rounded-lg overflow-hidden">
-            <table class="w-full text-left border-collapse">
-                <thead class="text-xs text-gray-400 uppercase border-b border-gray-700">
+        <div class="bg-[#1c2128] rounded-xl border border-gray-700 overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-[#22272e] text-[11px] text-gray-400 uppercase tracking-widest border-b border-gray-700">
                     <tr>
                         <th class="p-4">Task</th>
                         <th class="p-4 text-center">Due Date</th>
@@ -43,19 +45,11 @@
                         <th class="p-4 text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody id="todo-list" class="text-sm">
-                    <tr id="empty-message">
-                        <td colspan="4" class="p-10 text-center text-gray-500">No task found</td>
-                    </tr>
-                </tbody>
+                <tbody id="todo-list"></tbody>
             </table>
         </div>
-
-        <footer class="mt-6">
-            <p class="text-center text-gray-400 text-xs text-opacity-50">© 2026 Todo-List Ariyo Seno</p>
-        </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
